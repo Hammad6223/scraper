@@ -1,18 +1,13 @@
 {
-  "name": "scraper",
+  "name": "linktree-scraper",
   "version": "1.0.0",
+  "description": "A serverless function to scrape Linktree links",
   "main": "index.js",
   "scripts": {
-    "start": "node api/scrape.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "vercel dev"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "body-parser": "^1.20.3",
-    "cors": "^2.8.5",
-    "express": "^4.21.1",
-    "linktree-scraper": "^0.3.0"
+    "axios": "^1.3.0",
+    "cheerio": "^1.0.0-rc.12"
   }
 }

@@ -1,30 +1,34 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-// Vercel function handler
+// Vercel serverless function handler
 module.exports = async (req, res) => {
   // Ensure the request method is POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed. Use POST.' });
   }
 
-  // Extract the Linktree URL from the request body
-  const { linktreeUrl } = req.body;
+  let { linktreeUrl } = req.body;
 
   // Validate the URL
   if (!linktreeUrl) {
     return res.status(400).json({ error: 'Missing linktreeUrl in request body' });
   }
 
-    // Add https:// if not present
-    if (!linktreeUrl.startsWith('http://') && !linktreeUrl.startsWith('https://')) {
-      linktreeUrl = `https://${linktreeUrl}`;
-    }
-  
+  // Add https:// if not present
+  if (!linktreeUrl.startsWith('http://') && !linktreeUrl.startsWith('https://')) {
+    linktreeUrl = `https://${linktreeUrl}`;
+  }
 
   try {
-    // Fetch the Linktree page HTML
-    const { data } = await axios.get(linktreeUrl);
+    // Add headers to mimic a real browser
+    const { data } = await axios.get(linktreeUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9',
+      },
+    });
+
     const $ = cheerio.load(data);
     const links = [];
 

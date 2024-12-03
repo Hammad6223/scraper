@@ -16,6 +16,12 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Missing linktreeUrl in request body' });
   }
 
+    // Add https:// if not present
+    if (!linktreeUrl.startsWith('http://') && !linktreeUrl.startsWith('https://')) {
+      linktreeUrl = `https://${linktreeUrl}`;
+    }
+  
+
   try {
     // Fetch the Linktree page HTML
     const { data } = await axios.get(linktreeUrl);
